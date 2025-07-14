@@ -1,0 +1,130 @@
+# 📊 Ad Intelligence Suite
+
+A full-stack data analytics solution for monitoring, forecasting, and automating digital ad performance metrics — built with Python, Streamlit, and Prophet.
+
+---
+
+## 🚀 Project Overview
+
+The **Ad Intelligence Suite** empowers marketers and analysts to:
+- Analyze trends in eCPM, CTR, fill rate, and more
+- Detect anomalies in campaign performance
+- Forecast future ad performance using time series modeling
+- Automatically send alerts via email and Slack
+- Explore data via an interactive dashboard
+
+This project combines automation, forecasting, anomaly detection, and visualization into a real-world, production-ready data product.
+
+---
+
+## 🧰 Tech Stack
+
+| Layer           | Tools/Libraries                        |
+|----------------|----------------------------------------|
+| Data Handling   | `pandas`, `numpy`                     |
+| Forecasting     | `prophet` (by Meta)                   |
+| Visualization   | `matplotlib`, `seaborn`, `plotly`     |
+| Dashboard UI    | `streamlit`                           |
+| Automation      | `smtplib`, `requests`, `dotenv`       |
+| Notifications   | Email (Yahoo SMTP), Slack Webhooks    |
+| Scheduling      | Windows Task Scheduler                |
+| Project Structure | Modular Python scripts              |
+
+---
+
+## 📁 Project Structure
+<pre lang="markdown">
+ad-intelligence-suite/
+├── data/ # Raw data (CSV)
+├── eda/ # EDA notebook
+├── forecast/ # Forecasting scripts
+├── alerts/ # Anomaly & forecast alert scripts
+├── dashboard/ # Streamlit dashboard app
+├── reports/ # Output reports (CSV, charts)
+├── .env # Secrets for email & Slack
+└── README.md 
+</pre>
+
+
+---
+
+## 📈 Features
+
+### 🧪 Exploratory Data Analysis (EDA)
+- Data profiling
+- Missing value checks
+- Distribution & trend plots
+
+### 📉 Anomaly Detection
+- Identify abnormal CTR, eCPM, and fill rates
+- Output a clean `anomaly_summary.csv` report
+- Alert stakeholders automatically
+
+### 📈 Forecasting (eCPM)
+- Prophet-based time series modeling
+- Auto-updated forecast file (`forecast_ecpm.csv`)
+- Weekly summary messages (e.g. “eCPM down 8.4%”)
+
+### 📬 Email & Slack Alerts
+- Anomaly alerts sent instantly
+- Weekly forecast alerts via Yahoo Mail + Slack
+- Uses `.env` for secure credentials
+
+### 📊 Interactive Dashboard (Streamlit)
+- Metric switcher (CTR, Clicks, Revenue, etc.)
+- Highlight anomalies directly on charts
+- Compare date ranges (WoW, MoM)
+
+### ⏰ Automation (Scheduled Tasks)
+- Fully autonomous with Windows Task Scheduler
+- No need to run manually
+
+---
+
+## 📸 Screenshots
+
+<video controls src="streamlit-dashboard-2025-07-14-02-07-63.webm" title="Title"></video>
+---
+
+## 📦 Getting Started
+
+1. **Clone the repo**
+   ```bash
+   git clone https://github.com/yourusername/ad-intelligence-suite.git
+   cd ad-intelligence-suite
+
+
+2. **Create a virtual environment**
+   ```
+   python -m venv .venv
+   .venv\Scripts\activate
+   pip install -r requirements.txt
+
+3. **Set up your .env**
+   ```
+   EMAIL_SENDER=your_yahoo_email
+   EMAIL_PASSWORD=your_yahoo_app_password
+   EMAIL_RECEIVER=recipient@example.com
+   SLACK_WEBHOOK=https://hooks.slack.com/...
+
+4. **Run components**
+   ```
+   - Run EDA: eda/eda.ipynb
+
+   - Forecast: python forecast/forecast_ecpm.py
+
+   - Anomaly Alerts: python alerts/send_alerts.py
+
+   - Forecast Alerts: python forecast/send_forecast_alerts.py
+
+   - Dashboard: streamlit run dashboard/dashboard.py
+
+💡 Inspiration
+This project simulates the kind of real-time, data-driven alerting system used by performance marketing teams to optimize digital ad spend and delivery in real-time. It was built to demonstrate full-stack data capabilities in a real-world setting.
+
+📫 Contact
+Henry C. Dibie
+henrymorgan273@yahoo.com
+
+Give this repo a ⭐ if you find it useful or inspiring!
+

@@ -1,0 +1,68 @@
+Date,Country,Anomaly Type
+2021-01-16,Poland,CTR
+2021-01-18,Ireland,CTR
+2021-01-20,Australia,CTR
+2021-01-21,Brazil,CTR
+2021-01-25,US Virgin Islands,CTR
+2021-02-03,Hungary,CTR
+2021-02-06,China,CTR
+2021-02-09,Puerto Rico,CTR
+2021-04-13,Spain,CTR
+2021-05-06,New Zealand,CTR
+2021-07-24,South Korea,CTR
+2021-08-08,China,CTR
+2021-08-12,Uganda,CTR
+2021-08-18,Tanzania,CTR
+2021-12-13,Spain,CTR
+2022-05-12,Italy,CTR
+2022-11-20,Ireland,CTR
+2023-04-20,Tanzania,CTR
+2021-01-09,Italy,Fill Rate
+2021-01-10,Germany,Fill Rate
+2021-01-17,South Africa,Fill Rate
+2021-03-04,Nigeria,Fill Rate
+2021-03-08,United Arab Emirates,Fill Rate
+2021-03-24,South Korea,Fill Rate
+2021-03-29,Côte d’Ivoire,Fill Rate
+2021-03-30,Argentina,Fill Rate
+2021-04-18,Tanzania,Fill Rate
+2021-04-20,Pakistan,Fill Rate
+2021-04-24,Guinea,Fill Rate
+2021-05-04,Nigeria,Fill Rate
+2021-05-11,Italy,Fill Rate
+2021-05-12,Germany,Fill Rate
+2022-03-31,Argentina,Fill Rate
+2021-07-26,Zambia,Observed eCPM (USD)
+2023-04-05,Chile,Observed eCPM (USD)
+2023-06-18,Sweden,Observed eCPM (USD)
+2023-06-19,Libya,Observed eCPM (USD)
+2023-06-20,Tanzania,Observed eCPM (USD)
+2023-06-21,Cameroon,Observed eCPM (USD)
+2023-06-22,Pakistan,Observed eCPM (USD)
+2023-06-23,Congo - Brazzaville,Observed eCPM (USD)
+2023-06-24,Czechia,Observed eCPM (USD)
+2023-06-25,Gabon,Observed eCPM (USD)
+2023-06-27,Barbados,Observed eCPM (USD)
+2023-06-28,Congo - Kinshasa,Observed eCPM (USD)
+2023-06-29,Jordan,Observed eCPM (USD)
+2023-06-30,Mauritius,Observed eCPM (USD)
+2023-07-01,Ukraine,Observed eCPM (USD)
+2023-07-03,Ethiopia,Observed eCPM (USD)
+2023-07-04,Liberia,Observed eCPM (USD)
+2023-07-05,United States,Observed eCPM (USD)
+2023-07-08,New Zealand,Observed eCPM (USD)
+2023-07-09,France,Observed eCPM (USD)
+2023-07-10,United Arab Emirates,Observed eCPM (USD)
+2023-07-11,Türkiye,Observed eCPM (USD)
+2023-07-12,Canada,Observed eCPM (USD)
+2023-07-14,Germany,Observed eCPM (USD)
+2023-07-16,Ghana,Observed eCPM (USD)
+2023-06-18,Sweden,Est. earnings (USD)
+2023-06-19,Libya,Est. earnings (USD)
+2023-06-20,Tanzania,Est. earnings (USD)
+2023-06-21,Cameroon,Est. earnings (USD)
+2023-06-22,Pakistan,Est. earnings (USD)
+2023-06-23,Congo - Brazzaville,Est. earnings (USD)
+2023-06-24,Czechia,Est. earnings (USD)
+2023-06-25,Gabon,Est. earnings (USD)
+2023-07-04,Liberia,Est. earnings (USD)
