@@ -39,6 +39,7 @@ ad-intelligence-suite/
 ├── app/                    # Utilities (helpers, configs)
 ├── dashboard/              # Streamlit dashboard
 ├── forecast/               # Forecasting scripts
+├── images/                 # 📸 All screenshots/images
 ├── data/                   # Raw datasets (CSV)
 ├── reports/                # Outputs (forecasts, anomalies, HTML)
 ├── notebooks/              # EDA, anomaly detection, modeling
