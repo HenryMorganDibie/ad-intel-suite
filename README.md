@@ -100,7 +100,7 @@ ad-intelligence-suite/
 
 1. **Clone the repo**
    ```bash
-   git clone https://github.com/yourusername/ad-intelligence-suite.git
+   git clone https://github.com/HenryMorganDibie/ad-intelligence-suite.git
    cd ad-intelligence-suite
 
 
@@ -121,7 +121,7 @@ ad-intelligence-suite/
    ```
    - Run EDA: eda/eda.ipynb
 
-   - Forecast: python forecast/forecast_ecpm.py
+   - Forecast: python forecast/generate_forecast_and_anomalies.py
 
    - Anomaly Alerts: python alerts/send_alerts.py
 
