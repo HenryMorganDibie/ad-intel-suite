@@ -28,7 +28,7 @@ This project combines automation, forecasting, anomaly detection, and visualizat
 | Automation      | `smtplib`, `requests`, `dotenv`       |
 | Notifications   | Email (Yahoo SMTP), Slack Webhooks    |
 | Scheduling      | Windows Task Scheduler                |
-| Project Structure | Modular Python scripts              |
+| Project Structure | Modular Python scripts + Jupyter Notebooks             |
 
 ---
 
