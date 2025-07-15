@@ -86,13 +86,13 @@ ad-intelligence-suite/
 
 ## 📸 Screenshots
 
-| Email & Slack Alerts | Forecast Visuals |
-|----------------------|------------------|
-| c:\Users\Henry Morgan\Downloads\email_alert.png | c:\Users\Henry Morgan\Downloads\ecpm_forecast.png |
-| c:\Users\Henry Morgan\Downloads\slack_alert.png | c:\Users\Henry Morgan\Downloads\ctr_forecast.png |
-|                          | c:\Users\Henry Morgan\Downloads\clicks_forecast.png |
-|                          | c:\Users\Henry Morgan\Downloads\impressions_forecast.png |
-|                          | c:\Users\Henry Morgan\Downloads\revenue_forecast.png |
+| Email & Slack Alerts      | Forecast Visuals           |
+|---------------------------|----------------------------|
+| ![](images/email_alert.png) | ![](images/ecpm_forecast.png) |
+| ![](images/slack_alert.png) | ![](images/ctr_forecast.png)  |
+|                           | ![](images/clicks_forecast.png) |
+|                           | ![](images/impressions_forecast.png) |
+|                           | ![](images/revenue_forecast.png) |
 
 ---
 
