@@ -86,13 +86,13 @@ ad-intelligence-suite/
 
 ## 📸 Screenshots
 
-![alt text](<email ad metric anomaly alert.png>)
-![alt text](<slack ad metric anomaly alert.png>)
-![alt text](<CTR over time (Forecasts and anomalies).png>)
-![alt text](<eCPM over time (Forecasts and Anomalies).png>)
-![alt text](<Clicks over time (Forecasts and Anomalies).png>)
-![alt text](<Impressions over time (Forecasts and Anomalies).png>)
-![alt text](<Revenue over time (Forecasts and Anomalies).png>)
+| Email & Slack Alerts | Forecast Visuals |
+|----------------------|------------------|
+| c:\Users\Henry Morgan\Downloads\email_alert.png | c:\Users\Henry Morgan\Downloads\ecpm_forecast.png |
+| c:\Users\Henry Morgan\Downloads\slack_alert.png | c:\Users\Henry Morgan\Downloads\ctr_forecast.png |
+|                          | c:\Users\Henry Morgan\Downloads\clicks_forecast.png |
+|                          | c:\Users\Henry Morgan\Downloads\impressions_forecast.png |
+|                          | c:\Users\Henry Morgan\Downloads\revenue_forecast.png |
 
 ---
 
