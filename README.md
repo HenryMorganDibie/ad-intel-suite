@@ -7,8 +7,8 @@ A full-stack data analytics solution for monitoring, forecasting, and automating
 ## 🚀 Project Overview
 
 The **Ad Intelligence Suite** empowers marketers and analysts to:
-- Analyze trends in eCPM, CTR, fill rate, and more
-- Detect anomalies in campaign performance
+- Track key ad metrics like eCPM, CTR, Clicks, Revenue, and Impressions
+- Detect anomalies in campaign performance (e.g. drops/spikes)
 - Forecast future ad performance using time series modeling
 - Automatically send alerts via email and Slack
 - Explore data via an interactive dashboard
@@ -35,14 +35,15 @@ This project combines automation, forecasting, anomaly detection, and visualizat
 ## 📁 Project Structure
 <pre lang="markdown">
 ad-intelligence-suite/
-├── data/ # Raw data (CSV)
-├── eda/ # EDA notebook
-├── forecast/ # Forecasting scripts
-├── alerts/ # Anomaly & forecast alert scripts
-├── dashboard/ # Streamlit dashboard app
-├── reports/ # Output reports (CSV, charts)
-├── .env # Secrets for email & Slack
-└── README.md 
+├── alerts/                 # Email + Slack alert scripts
+├── app/                    # Utilities (helpers, configs)
+├── dashboard/              # Streamlit dashboard
+├── forecast/               # Forecasting scripts
+├── data/                   # Raw datasets (CSV)
+├── reports/                # Outputs (forecasts, anomalies, HTML)
+├── notebooks/              # EDA, anomaly detection, modeling
+├── .env                    # Email/Slack credentials (excluded in .gitignore)
+└── README.md
 </pre>
 
 
@@ -53,10 +54,10 @@ ad-intelligence-suite/
 ### 🧪 Exploratory Data Analysis (EDA)
 - Data profiling
 - Missing value checks
-- Distribution & trend plots
+- Distribution & trend plots across eCPM, CTR, Revenue, and more
 
 ### 📉 Anomaly Detection
-- Identify abnormal CTR, eCPM, and fill rates
+- Identify abnormal CTR, eCPM, Clicks, and Impressions
 - Output a clean `anomaly_summary.csv` report
 - Alert stakeholders automatically
 
@@ -74,6 +75,7 @@ ad-intelligence-suite/
 - Metric switcher (CTR, Clicks, Revenue, etc.)
 - Highlight anomalies directly on charts
 - Compare date ranges (WoW, MoM)
+- Forecast lines and historical trends displayed together
 
 ### ⏰ Automation (Scheduled Tasks)
 - Fully autonomous with Windows Task Scheduler
@@ -83,7 +85,14 @@ ad-intelligence-suite/
 
 ## 📸 Screenshots
 
-<video controls src="streamlit-dashboard-2025-07-14-02-07-63.webm" title="Title"></video>
+![alt text](<email ad metric anomaly alert.png>)
+![alt text](<slack ad metric anomaly alert.png>)
+![alt text](<CTR over time (Forecasts and anomalies).png>)
+![alt text](<eCPM over time (Forecasts and Anomalies).png>)
+![alt text](<Clicks over time (Forecasts and Anomalies).png>)
+![alt text](<Impressions over time (Forecasts and Anomalies).png>)
+![alt text](<Revenue over time (Forecasts and Anomalies).png>)
+
 ---
 
 ## 📦 Getting Started

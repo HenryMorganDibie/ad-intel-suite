@@ -8,40 +8,62 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-# 📥 Load forecast data
-df = pd.read_csv("reports/forecast_ecpm.csv")
-df["ds"] = pd.to_datetime(df["ds"])
+# 🔍 Define metrics to monitor
+metrics = {
+    "eCPM": "forecast_ecpm.csv",
+    "CTR": "forecast_ctr.csv",
+    "Clicks": "forecast_clicks.csv",
+    "Impressions": "forecast_impressions.csv",
+    "Revenue": "forecast_revenue.csv"
+}
 
-# 📆 Define forecast window
 today = datetime.today().date()
-next_7 = df[df["ds"].dt.date.between(today, today + timedelta(days=6))]
-prev_7 = df[df["ds"].dt.date.between(today - timedelta(days=7), today - timedelta(days=1))]
+alert_sections = []
 
-# 🚫 Abort if forecast missing
-if next_7.empty:
-    print("✅ No future forecast available.")
+# 📊 Loop through each metric and generate section
+for metric, filename in metrics.items():
+    path = os.path.join("reports", filename)
+    if not os.path.exists(path):
+        print(f"⚠️ Skipping {metric} – file not found.")
+        continue
+
+    df = pd.read_csv(path)
+    df["ds"] = pd.to_datetime(df["ds"])
+
+    next_7 = df[df["ds"].dt.date.between(today, today + timedelta(days=6))]
+    prev_7 = df[df["ds"].dt.date.between(today - timedelta(days=7), today - timedelta(days=1))]
+
+    if next_7.empty:
+        print(f"✅ No forecast for {metric}.")
+        continue
+
+    next_avg = next_7["Forecast"].mean()
+    prev_avg = prev_7["Forecast"].mean() if not prev_7.empty else None
+    pct_change = ((next_avg - prev_avg) / prev_avg * 100) if prev_avg else None
+    peak_day = next_7.loc[next_7["Forecast"].idxmax()]["ds"].date()
+    low_day = next_7.loc[next_7["Forecast"].idxmin()]["ds"].date()
+
+    section = [
+        f"📊 *{metric} Forecast*",
+        f"📅 {today} → {today + timedelta(days=6)}",
+        f"🔹 Avg {metric}: {next_avg:.2f}" if metric != "CTR" else f"🔹 Avg {metric}: {next_avg:.2%}"
+    ]
+
+    if pct_change is not None:
+        trend = "🔼 Increase" if pct_change > 0 else "🔻 Decrease"
+        section.append(f"{trend} vs last week: {pct_change:.1f}%")
+
+    section.append(f"📈 Peak on {peak_day}")
+    section.append(f"📉 Lowest on {low_day}")
+    alert_sections.append("\n".join(section))
+
+# 🚫 If no sections, exit
+if not alert_sections:
+    print("✅ No forecasts available to send.")
     exit()
 
-# 📊 Stats
-next_avg = next_7["yhat"].mean()
-prev_avg = prev_7["yhat"].mean() if not prev_7.empty else None
-pct_change = ((next_avg - prev_avg) / prev_avg * 100) if prev_avg else None
-peak_day = next_7.loc[next_7["yhat"].idxmax()]["ds"].date()
-low_day = next_7.loc[next_7["yhat"].idxmin()]["ds"].date()
-
-# 📝 Format alert
-lines = [
-    "📊 *Weekly Forecast Alert*",
-    f"📅 {today} → {today + timedelta(days=6)}",
-    f"🔹 Avg eCPM: ${next_avg:.2f}",
-]
-if pct_change is not None:
-    trend = "🔼 Increase" if pct_change > 0 else "🔻 Decrease"
-    lines.append(f"{trend} vs last week: {pct_change:.1f}%")
-lines.append(f"📈 Peak on {peak_day}")
-lines.append(f"📉 Lowest on {low_day}")
-
-alert_text = "\n".join(lines)
+# 🧾 Final message
+alert_text = "\n\n".join(alert_sections)
 
 # ✉️ Email Alert
 def send_email(subject, body):
@@ -74,6 +96,6 @@ def send_slack(message):
     except Exception as e:
         print("❌ Slack error:", e)
 
-# 🚀 Send both alerts
-send_email("📈 Weekly Forecast eCPM Update", alert_text)
+# 🚀 Send Alerts
+send_email("📈 Weekly Forecast Update", alert_text)
 send_slack(alert_text)

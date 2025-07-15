@@ -1,40 +1,15 @@
 import streamlit as st
 import pandas as pd
 import plotly.express as px
-from datetime import date, timedelta
+from datetime import timedelta
 import os
 
-# 🧭 Load datasets
+# 📂 File paths
 actuals_path = 'data/Dataset - Sheet1.csv'
-forecast_path = 'reports/forecast_ecpm.csv'
+forecast_dir = 'reports'
 anomaly_path = 'reports/anomaly_summary.csv'
 
-required_files = [actuals_path, forecast_path]
-for f in required_files:
-    if not os.path.exists(f):
-        st.error(f"🚫 Missing file: {f}")
-        st.stop()
-
-# 🧼 Load & clean actuals
-actuals = pd.read_csv(actuals_path)
-actuals.columns = actuals.columns.str.strip()
-
-# Add CTR manually if not present
-if 'CTR' not in actuals.columns and 'Clicks' in actuals.columns and 'Impressions' in actuals.columns:
-    actuals['CTR'] = actuals['Clicks'] / actuals['Impressions']
-
-forecast = pd.read_csv(forecast_path)
-actuals['Date'] = pd.to_datetime(actuals['Date'])
-forecast['ds'] = pd.to_datetime(forecast['ds'])
-
-# 🔴 Load anomalies (if file exists)
-if os.path.exists(anomaly_path):
-    anomalies = pd.read_csv(anomaly_path)
-    anomalies['Date'] = pd.to_datetime(anomalies['Date'])
-else:
-    anomalies = pd.DataFrame()
-
-# 🎛️ Metric selector
+# 🎯 Metrics config
 metrics = {
     "eCPM": "Observed eCPM (USD)",
     "CTR": "CTR",
@@ -42,20 +17,52 @@ metrics = {
     "Impressions": "Impressions",
     "Revenue": "Est. earnings (USD)"
 }
+
+# 🧭 Load actuals
+if not os.path.exists(actuals_path):
+    st.error(f"❌ Missing file: {actuals_path}")
+    st.stop()
+
+actuals = pd.read_csv(actuals_path)
+actuals.columns = actuals.columns.str.strip()
+actuals['Date'] = pd.to_datetime(actuals['Date'])
+actuals = actuals.rename(columns={"Date": "ds"})
+
+# ➕ Compute CTR if missing
+if 'CTR' not in actuals.columns and 'Clicks' in actuals.columns and 'Impressions' in actuals.columns:
+    actuals['CTR'] = actuals['Clicks'] / actuals['Impressions']
+
+# 🔴 Load anomalies
+if os.path.exists(anomaly_path):
+    anomalies = pd.read_csv(anomaly_path)
+    anomalies['Date'] = pd.to_datetime(anomalies['Date'])
+else:
+    anomalies = pd.DataFrame()
+
+# 🎛️ Metric selection
 selected_metric = st.selectbox("📊 Select Metric", list(metrics.keys()))
 metric_col = metrics[selected_metric]
 
-# 🧽 Prepare data
-actuals = actuals.rename(columns={"Date": "ds"})
-forecast = forecast.rename(columns={"yhat": "Forecasted eCPM"})
+# 📉 Load forecast
+forecast_file = os.path.join(forecast_dir, f"forecast_{selected_metric.lower()}.csv")
+if os.path.exists(forecast_file):
+    forecast = pd.read_csv(forecast_file)
+    forecast['ds'] = pd.to_datetime(forecast['ds'])
+    if 'yhat' in forecast.columns:
+        forecast = forecast.rename(columns={'yhat': 'Forecast'})
+    elif 'Forecasted eCPM' in forecast.columns:
+        forecast = forecast.rename(columns={'Forecasted eCPM': 'Forecast'})
+else:
+    forecast = pd.DataFrame()
 
-# 🎯 Date range
+# 📅 Date range slider
 min_date = actuals['ds'].min().date()
-max_date = forecast['ds'].max().date()
+max_date = max(actuals['ds'].max(), forecast['ds'].max() if not forecast.empty else actuals['ds'].max()).date()
 date_range = st.slider("📅 Select date range", min_value=min_date, max_value=max_date, value=(min_date, max_date))
 
-# 🔍 Filter actuals
+# 🔍 Filter actuals + forecast
 filtered_actuals = actuals[(actuals['ds'].dt.date >= date_range[0]) & (actuals['ds'].dt.date <= date_range[1])]
+filtered_forecast = forecast[(forecast['ds'].dt.date >= date_range[0]) & (forecast['ds'].dt.date <= date_range[1])]
 
 # 📆 Previous period
 period_days = (date_range[1] - date_range[0]).days + 1
@@ -70,11 +77,10 @@ def calc_pct_change(curr, prev):
 
 col1, col2, col3 = st.columns(3)
 
-# Special handling for CTR
 if selected_metric == "CTR":
-    ctr_curr = filtered_actuals['Clicks'].sum() / filtered_actuals['Impressions'].sum()
-    ctr_prev = previous_actuals['Clicks'].sum() / previous_actuals['Impressions'].sum()
-    col1.metric("Avg CTR", f"{ctr_curr:.2%}", calc_pct_change(ctr_curr, ctr_prev))
+    curr_ctr = filtered_actuals['Clicks'].sum() / filtered_actuals['Impressions'].sum()
+    prev_ctr = previous_actuals['Clicks'].sum() / previous_actuals['Impressions'].sum()
+    col1.metric("Avg CTR", f"{curr_ctr:.2%}", calc_pct_change(curr_ctr, prev_ctr))
     col2.metric("Total Clicks", f"{filtered_actuals['Clicks'].sum():,.0f}")
     col3.metric("Total Impressions", f"{filtered_actuals['Impressions'].sum():,.0f}")
 else:
@@ -88,8 +94,8 @@ else:
 
     col3.metric("Period", f"{period_days} days", f"vs. prev {period_days} days")
 
-# 📈 Timeseries Chart
-fig = px.line(filtered_actuals, x='ds', y=metric_col, title=f"📈 {selected_metric} Over Time", labels={'ds': 'Date', metric_col: selected_metric})
+# 📈 Time series chart
+fig = px.line(filtered_actuals, x='ds', y=metric_col, title=f"{selected_metric} Over Time", labels={'ds': 'Date', metric_col: selected_metric})
 
 # 🔴 Overlay Anomalies
 if not anomalies.empty and selected_metric in anomalies['Anomaly Type'].unique():
@@ -104,13 +110,23 @@ if not anomalies.empty and selected_metric in anomalies['Anomaly Type'].unique()
             marker=dict(color='red', size=8, symbol='x')
         )
 
+# 🔮 Overlay Forecast
+if not forecast.empty:
+    fig.add_scatter(
+        x=filtered_forecast['ds'],
+        y=filtered_forecast['Forecast'],
+        mode='lines',
+        name='Forecast',
+        line=dict(dash='dot', color='orange')
+    )
+
 st.plotly_chart(fig, use_container_width=True)
 
-# 📥 Forecast download
-if selected_metric == "eCPM":
+# 📥 Download forecast
+if not forecast.empty:
     st.download_button(
-        label="📥 Download Forecast CSV",
+        label=f"📥 Download {selected_metric} Forecast CSV",
         data=forecast.to_csv(index=False),
-        file_name='forecast_ecpm.csv',
+        file_name=f"forecast_{selected_metric.lower()}.csv",
         mime='text/csv'
     )
